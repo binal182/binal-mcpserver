@@ -1,0 +1,111 @@
+import { z } from "zod"
+import { Index } from "@upstash/vector"
+
+// Shared Zod schema for RAG search query validation
+export const ragSearchSchema = z.string().min(1, "Query cannot be empty").max(500, "Query too long")
+
+// Initialize Upstash Vector client
+function getVectorClient() {
+  const url = process.env.UPSTASH_VECTOR_REST_URL
+  const token = process.env.UPSTASH_VECTOR_REST_TOKEN
+
+  if (!url || !token) {
+    throw new Error("Missing Upstash Vector configuration. Please set UPSTASH_VECTOR_REST_URL and UPSTASH_VECTOR_REST_TOKEN in your environment variables.")
+  }
+
+  return new Index({
+    url,
+    token,
+  })
+}
+
+// Shared RAG search logic used by both MCP handler and server actions
+export async function searchBinalKnowledge(query: string) {
+  // Validate input using the shared schema
+  const validatedQuery = ragSearchSchema.parse(query)
+  
+  try {
+    const index = getVectorClient()
+    
+    // Perform vector search with metadata
+    const results = await index.query({
+      data: validatedQuery,
+      topK: 5, // Get top 5 most relevant results
+      includeMetadata: true,
+    })
+
+    // Format results for consistent output
+    if (!results || results.length === 0) {
+      return {
+        type: 'text' as const,
+        text: `🔍 No relevant information found about "${validatedQuery}". Please try rephrasing your question or asking about Binal's professional background, skills, or experience.`
+      }
+    }
+
+    // Extract and format the search results
+    const formattedResults = results
+      .filter(result => result.score && result.score > 0.7) // Filter by relevance score
+      .map((result, index) => {
+        const metadata = result.metadata || {}
+        const content = metadata.text || metadata.content || "No content available"
+        const source = metadata.source || metadata.title || "Unknown source"
+        
+        return `${index + 1}. **${source}**
+${content}
+*Relevance: ${(result.score * 100).toFixed(1)}%*`
+      })
+
+    if (formattedResults.length === 0) {
+      return {
+        type: 'text' as const,
+        text: `🔍 Found ${results.length} results for "${validatedQuery}", but none were highly relevant. Please try being more specific about what you'd like to know about Binal.`
+      }
+    }
+
+    const responseText = `🔍 **Search Results for "${validatedQuery}"**
+
+${formattedResults.join('\n\n')}
+
+---
+*Found ${formattedResults.length} relevant result(s) from Binal's knowledge base.*`
+
+    return {
+      type: 'text' as const,
+      text: responseText
+    }
+  } catch (error) {
+    console.error('RAG search error:', error)
+    return {
+      type: 'text' as const,
+      text: `❌ Error searching Binal's knowledge base: ${error instanceof Error ? error.message : 'Unknown error occurred'}. Please check your Upstash Vector configuration.`
+    }
+  }
+}
+
+// Tool definition that can be reused
+export const searchBinalTool = {
+  name: 'search_binal_knowledge',
+  description: 'Search through Binal\'s professional knowledge base using RAG (Retrieval-Augmented Generation). Ask questions about Binal\'s background, skills, experience, projects, or expertise.',
+  schema: {
+    query: ragSearchSchema,
+  }
+} as const
+
+// Health check function
+export async function checkVectorConnection() {
+  try {
+    const index = getVectorClient()
+    // Try a simple query to test connection
+    await index.query({
+      data: "test",
+      topK: 1,
+      includeMetadata: false,
+    })
+    return { connected: true, error: null }
+  } catch (error) {
+    return { 
+      connected: false, 
+      error: error instanceof Error ? error.message : 'Unknown connection error' 
+    }
+  }
+}
