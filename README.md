@@ -1,94 +1,72 @@
-# 🤖 Binal Digital Twin MCP Server
+# Binal's AI-Powered Resume Platform
 
-A powerful Model Context Protocol (MCP) server that brings Binal's professional knowledge base directly to Claude Desktop using advanced RAG (Retrieval-Augmented Generation) technology. Built with Next.js, Upstash Vector, and the MCP Handler library with server actions for seamless web testing.
+A modern, interactive resume website with AI-powered chat functionality using Next.js 15, Upstash Vector Database, and MCP (Model Context Protocol) integration for Claude Desktop.
 
-![Binal Digital Twin MCP Server](https://via.placeholder.com/800x400/0f0f0f/ffffff?text=Binal+Digital+Twin+MCP+Server)
+## 🚀 Features
 
-## ✨ Features
+- **📱 Professional Resume Website**: Modern, responsive design optimized for recruiters
+- **🤖 Interactive AI Chat**: Ask questions about Binal's background, skills, and experience
+- **🔍 RAG-Powered Search**: Vector database search through comprehensive professional data
+- **🖨️ Print-Optimized**: Professional PDF generation for download
+- **💻 MCP Integration**: Claude Desktop integration for advanced AI interactions
 
-- 🔍 **RAG-Powered Search**: Advanced semantic search through Binal's professional knowledge base
-- 🌐 **Beautiful Web Interface**: Modern, responsive UI with detailed setup instructions and testing
-- 🔄 **Server Actions Integration**: Web interface uses the same logic as the MCP server
-- 🎯 **Intelligent Results**: Relevance scoring and contextual ranking of search results
-- 📋 **Copy-to-Clipboard**: Easy configuration copying for Claude Desktop setup
-- 🔧 **Multiple Transports**: Supports SSE, stdio, and other MCP transport protocols
-- 🚀 **Vercel Ready**: Optimized for deployment on Vercel platform
-- 📱 **Responsive Design**: Works perfectly on desktop and mobile devices
-- 🧠 **Educational**: Detailed explanations of RAG and MCP protocol architecture
+## 🛠️ Tech Stack
 
-## 🖥️ Live Demo
+- **Frontend**: Next.js 15 with React 19, Tailwind CSS, shadcn/ui
+- **Backend**: Upstash Vector Database for RAG search
+- **AI Integration**: Claude Sonnet via MCP protocol
+- **Deployment**: Vercel-ready configuration
 
-Visit the live application: [Your Vercel URL here]
+## 📁 Project Structure
 
-## 🚀 Quick Start
+```
+binalmcp/
+├── app/
+│   ├── actions/          # Server actions for database and MCP
+│   ├── api/             # MCP API route
+│   ├── resume/          # Professional resume page
+│   ├── layout.tsx       # Root layout
+│   └── page.tsx         # Main landing page
+├── components/
+│   ├── ui/              # shadcn/ui components
+│   ├── interactive-resume.tsx
+│   ├── mcp-setup-guide.tsx
+│   └── test-rag-search.tsx
+├── lib/
+│   └── rag-search.ts    # Vector database search logic
+├── .env.local           # Environment variables
+└── package.json
+```
 
-### 1. Clone and Install
+## 🔧 Setup & Installation
 
+### Prerequisites
+- Node.js 18+ 
+- pnpm package manager
+- Upstash Vector Database account
+
+### 1. Environment Setup
+Create `.env.local` with your Upstash credentials:
+```env
+UPSTASH_VECTOR_REST_URL="your_upstash_vector_url"
+UPSTASH_VECTOR_REST_TOKEN="your_upstash_vector_token"
+OPENAI_API_KEY="your_openai_api_key"
+```
+
+### 2. Install Dependencies
 ```bash
-git clone https://github.com/binal182/binalmcp.git
-cd binalmcp
 pnpm install
 ```
 
-### 2. Set up Upstash Vector Database
+### 3. Populate Database
+The database is already populated with Binal's professional data. To repopulate if needed, use the MCP Setup Guide on the website.
 
-1. Create an account at [Upstash](https://upstash.com/)
-2. Create a new Vector database
-3. Copy your REST URL and Token
-4. Create `.env.local` file:
-
-```env
-UPSTASH_VECTOR_REST_URL=your_upstash_vector_rest_url_here
-UPSTASH_VECTOR_REST_TOKEN=your_upstash_vector_rest_token_here
-```
-
-### 3. Start Development Server
-
+### 4. Run Development Server
 ```bash
-pnpm run dev
+pnpm dev
 ```
 
-The application will be available at:
-- **Web Interface**: `http://localhost:3000` (setup instructions, documentation, and testing)
-- **MCP Endpoint**: `http://localhost:3000/api/[transport]` (for Claude Desktop)
-
-## 🤖 Setting Up with Claude Desktop
-
-The web interface at `http://localhost:3000` provides detailed, step-by-step instructions with copy-to-clipboard functionality. Here's the quick version:
-
-### 1. Install Claude Desktop
-Download from [claude.ai/download](https://claude.ai/download)
-
-### 2. Configure MCP Connection
-Add this to your Claude Desktop config file:
-
-**Windows**: `%APPDATA%\Claude\claude_desktop_config.json`  
-**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
-
-```json
-{
-  "mcpServers": {
-    "binal-digital-twin": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "http://localhost:3000/api/mcp"
-      ]
-    }
-  }
-}
-```
-
-### 3. Restart Claude Desktop
-Look for the hammer icon (🔨) in the input box - this indicates MCP tools are available!
-
-### 4. Start Asking Questions!
-Ask Claude natural language questions like:
-- "What programming languages does Binal know?"
-- "Tell me about Binal's education background"
-- "What AI/ML projects has Binal worked on?"
-- "What is Binal's experience with vector databases?"
+Visit `http://localhost:3000` to see the application.
 
 ## 🏗️ How It Works
 

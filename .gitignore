@@ -39,8 +39,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
- 
-# Upstash Vector Database
 
-UPSTASH_VECTOR_REST_URL="https://golden-termite-45105-us1-vector.upstash.io"
-UPSTASH_VECTOR_REST_TOKEN="ABgFMGdvbGRlbi10ZXJtaXRlLTQ1MTA1LXVzMWFkbWluWlRkaVlUZ3paR1l0Tnpoak1TMDBZV1E0TFdJek5qZ3RZemxqTVRKak56a3lObVZs"
