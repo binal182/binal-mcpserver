@@ -107,28 +107,28 @@ export default function ResumePage() {
   const skills = {
     "Data & Analytics": {
       items: [
-        { name: "Python", level: 90, description: "Pandas, NumPy for data processing and analysis" },
-        { name: "SQL", level: 85, description: "SQLite, PostgreSQL, MySQL for database querying" },
-        { name: "Excel", level: 80, description: "Data analysis, reporting, and dashboard creation" },
-        { name: "Database Design", level: 85, description: "Normalization, optimization, and relational design" }
+        { name: "Python", description: "Developed through capstone computer vision project using face_recognition, NumPy, Pandas libraries. Enhanced at AusBiz Consulting internship working on AI/data solutions." },
+        { name: "SQL & Database Design", description: "Mastered through Smart Attendance System capstone project - designed normalized relational database schema with 5+ interconnected tables following 3NF principles." },
+        { name: "Excel & Data Analysis", description: "Applied in academic coursework and real-world data processing. Used for reporting, dashboard creation, and business intelligence analysis." },
+        { name: "Data Pipeline Development", description: "Built through AusBiz Consulting internship and personal projects involving ChromaDB, Upstash vector databases, and data processing workflows." }
       ],
       color: "blue"
     },
-    "Programming Languages": {
+    "Programming & Development": {
       items: [
-        { name: "Python", level: 90, description: "Flask web development, data processing, computer vision" },
-        { name: "JavaScript/TypeScript", level: 85, description: "Next.js, React, modern web development" },
-        { name: "Java", level: 70, description: "Academic coursework and enterprise applications" },
-        { name: "PHP", level: 65, description: "Web development and server-side programming" }
+        { name: "TypeScript/JavaScript", description: "Self-taught through building interactive resume platform with Next.js 15, React 19. Applied in full-stack development with modern frameworks." },
+        { name: "Next.js/React", description: "Acquired while creating first-of-its-kind interactive resume technology. Built with Next.js 15, React 19, Server Components, and modern web standards." },
+        { name: "Flask Web Development", description: "Learned through Smart Attendance System capstone project. Built complete web application with database integration, authentication, and role-based access control." },
+        { name: "Git/GitHub", description: "Professional development workflow including version control, collaborative development, and project management across multiple repositories." }
       ],
       color: "green"
     },
-    "Web Development & Tools": {
+    "Specialized Technologies": {
       items: [
-        { name: "Next.js/React", level: 90, description: "Modern web applications with component architecture" },
-        { name: "Flask", level: 80, description: "Full-stack web applications with database integration" },
-        { name: "Git/GitHub", level: 85, description: "Version control and collaborative development" },
-        { name: "VS Code", level: 90, description: "Professional development environment and tools" }
+        { name: "AI/ML & Vector Databases", description: "Developed through building RAG systems with ChromaDB, Upstash vector databases. Integrated AI agents, embeddings, and Claude Sonnet 4.0 for intelligent applications." },
+        { name: "Computer Vision", description: "Implemented face recognition system using face_recognition library with 128-dimensional facial encoding. Built complete image processing pipeline with NumPy and Pillow." },
+        { name: "Cloud Development", description: "Applied through coursework in Cloud Application Development and deployment of interactive resume platform on Vercel with serverless architecture." },
+        { name: "Development Tools", description: "Professional environment setup including VS Code, GitHub Copilot for 60%+ code generation, Claude Sonnet 4.0 for architectural decisions, and modern development workflows." }
       ],
       color: "purple"
     }
@@ -268,7 +268,7 @@ export default function ResumePage() {
               </div>
               
               {/* Contact Information */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
                 <div className="flex items-center justify-center bg-white bg-opacity-10 rounded-xl p-4 backdrop-blur-sm">
                   <Mail className="h-5 w-5 text-blue-200 mr-3" />
                   <div className="text-left">
@@ -284,10 +284,17 @@ export default function ResumePage() {
                   </div>
                 </div>
                 <div className="flex items-center justify-center bg-white bg-opacity-10 rounded-xl p-4 backdrop-blur-sm">
+                  <Linkedin className="h-5 w-5 text-blue-200 mr-3" />
+                  <div className="text-left">
+                    <p className="text-blue-100 text-sm">LinkedIn</p>
+                    <p className="text-white font-medium">linkedin.com/in/binalshah</p>
+                  </div>
+                </div>
+                <div className="flex items-center justify-center bg-white bg-opacity-10 rounded-xl p-4 backdrop-blur-sm">
                   <MapPin className="h-5 w-5 text-blue-200 mr-3" />
                   <div className="text-left">
                     <p className="text-blue-100 text-sm">Location</p>
-                    <p className="text-white font-medium">Sydney, Australia</p>
+                    <p className="text-white font-medium">Hornsby, NSW 2077</p>
                   </div>
                 </div>
               </div>
@@ -448,17 +455,13 @@ export default function ResumePage() {
                 <div className="space-y-4">
                   {data.items.map((skill, i) => (
                     <div key={i} className="space-y-2">
-                      <div className="flex justify-between items-center">
+                      <div className="flex justify-between items-start">
                         <span className="font-semibold text-gray-800">{skill.name}</span>
-                        <span className="text-sm text-gray-600">{skill.level}%</span>
+                        <Badge variant="outline" className="border-gray-400 text-gray-600 text-xs">
+                          {category.split(' ')[0]}
+                        </Badge>
                       </div>
-                      <div className="skill-bar">
-                        <div 
-                          className="skill-fill" 
-                          style={{ width: `${skill.level}%` }}
-                        ></div>
-                      </div>
-                      <p className="text-xs text-gray-600">{skill.description}</p>
+                      <p className="text-sm text-gray-600 leading-relaxed">{skill.description}</p>
                     </div>
                   ))}
                 </div>

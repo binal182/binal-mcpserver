@@ -1,6 +1,7 @@
 "use client"
 
-import { Search, Settings, Play, User, FileText, Wrench } from "lucide-react"
+import { useState } from "react"
+import { Search, Settings, Play, User, FileText, Wrench, MessageCircle, Award, Briefcase } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Header } from "@/components/header"
 import { HeroSection } from "@/components/hero-section"
@@ -12,83 +13,257 @@ import { AboutSection } from "@/components/about-section"
 import { Footer } from "@/components/footer"
 import { InteractiveResume } from "@/components/interactive-resume"
 import { McpSetupGuide } from "@/components/mcp-setup-guide"
-import Link from "next/link"
+import { SkillsShowcase } from "@/components/skills-showcase"
+import { Card } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export default function Home() {
+  const [showTechnicalTabs, setShowTechnicalTabs] = useState(false)
+
+  const technicalFeatures = [
+    {
+      icon: Search,
+      title: "Smart Resume Search",
+      description: "Test the RAG-powered search functionality that powers the interactive resume experience.",
+      badge: "Live Demo"
+    },
+    {
+      icon: Settings,
+      title: "MCP Integration",
+      description: "Learn how to integrate this resume system with Claude Desktop through Model Context Protocol.",
+      badge: "Technical"
+    },
+    {
+      icon: MessageCircle,
+      title: "Technical Architecture",
+      description: "Deep dive into the implementation details, technology stack, and innovative features.",
+      badge: "Documentation"
+    }
+  ]
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
-      <main className="container mx-auto px-4 py-8">
-        <HeroSection />
+      <main>
+        {/* Hero Section */}
+        <div className="mb-20">
+          <HeroSection />
+        </div>
 
-        {/* Main Content Tabs */}
-        <Tabs defaultValue="resume" className="w-full">
-          <TabsList className="grid w-full grid-cols-6">
-            <TabsTrigger value="resume" className="flex items-center space-x-2">
-              <FileText className="h-4 w-4" />
-              <span>Resume</span>
-            </TabsTrigger>
-            <TabsTrigger value="setup" className="flex items-center space-x-2">
-              <Settings className="h-4 w-4" />
-              <span>Setup</span>
-            </TabsTrigger>
-            <TabsTrigger value="mcp" className="flex items-center space-x-2">
-              <Wrench className="h-4 w-4" />
-              <span>MCP Guide</span>
-            </TabsTrigger>
-            <TabsTrigger value="test" className="flex items-center space-x-2">
-              <Search className="h-4 w-4" />
-              <span>Test Search</span>
-            </TabsTrigger>
-            <TabsTrigger value="usage" className="flex items-center space-x-2">
-              <Play className="h-4 w-4" />
-              <span>How to Use</span>
-            </TabsTrigger>
-            <TabsTrigger value="about" className="flex items-center space-x-2">
-              <User className="h-4 w-4" />
-              <span>About</span>
-            </TabsTrigger>
-          </TabsList>
+        {/* About Section */}
+        <div className="mb-20">
+          <AboutSection />
+        </div>
 
-          <TabsContent value="resume" className="space-y-6">
-            <div className="flex justify-between items-center">
-              <div>
-                <h2 className="text-2xl font-bold">Interactive Resume</h2>
-                <p className="text-muted-foreground">Ask questions about Binal's professional background</p>
+        {/* Skills Showcase */}
+        <div className="mb-20">
+          <SkillsShowcase />
+        </div>
+
+        {/* Interactive Chat Section - Always Visible */}
+        <section id="interactive-chat" className="py-32 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                <span className="gradient-text">Interactive AI Resume Chat</span>
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+                Ask questions about my professional background and get intelligent, contextual responses powered by advanced AI technology.
+              </p>
+              <div className="flex justify-center mb-8">
+                <Link href="/resume" target="_blank">
+                  <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white">
+                    <FileText className="h-4 w-4 mr-2" />
+                    View Full Resume
+                  </Button>
+                </Link>
               </div>
-              <Link href="/resume" target="_blank">
-                <Button variant="outline">
-                  <FileText className="h-4 w-4 mr-2" />
-                  View Full Resume
-                </Button>
-              </Link>
             </div>
             <InteractiveResume />
-          </TabsContent>
+          </div>
+        </section>
 
-          <TabsContent value="setup" className="space-y-6">
-            <SetupGuide />
-          </TabsContent>
+        {/* Interactive Features Section */}
+        <section className="py-32 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                <span className="gradient-text">Technical Demonstrations</span>
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Explore the technical architecture and advanced features that power this AI-driven portfolio platform.
+              </p>
+            </div>
 
-          <TabsContent value="mcp" className="space-y-6">
-            <McpSetupGuide />
-          </TabsContent>
+            {/* Feature Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+              {technicalFeatures.map((feature, index) => (
+                <Card key={index} className="p-8 text-center interactive-card border-2 hover:border-black">
+                  <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center mx-auto mb-6">
+                    <feature.icon className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="flex justify-center mb-4">
+                    <Badge variant="outline" className="border-black text-black">
+                      {feature.badge}
+                    </Badge>
+                  </div>
+                  <h3 className="text-xl font-bold mb-4">{feature.title}</h3>
+                  <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                </Card>
+              ))}
+            </div>
 
-          <TabsContent value="test" className="space-y-6">
-            <McpProtocolInfo />
-            <TestRagSearch />
-          </TabsContent>
+            {/* Toggle Technical Features */}
+            <div className="text-center">
+              <Button
+                onClick={() => setShowTechnicalTabs(!showTechnicalTabs)}
+                variant="outline"
+                size="lg"
+                className="border-black text-black hover:bg-black hover:text-white"
+              >
+                {showTechnicalTabs ? "Hide" : "Explore"} Technical Features
+                <Wrench className="w-4 h-4 ml-2" />
+              </Button>
+            </div>
+          </div>
+        </section>
 
-          <TabsContent value="usage" className="space-y-6">
-            <UsageGuide />
-          </TabsContent>
+        {/* Technical Tabs (Collapsible) */}
+        {showTechnicalTabs && (
+          <section className="py-32 bg-white">
+            <div className="container mx-auto px-4">
+              <Tabs defaultValue="test" className="w-full">
+                <TabsList className="grid w-full grid-cols-5 bg-gray-100">
+                  <TabsTrigger value="test" className="flex items-center space-x-2 data-[state=active]:bg-black data-[state=active]:text-white">
+                    <Search className="h-4 w-4" />
+                    <span>Search Demo</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="setup" className="flex items-center space-x-2 data-[state=active]:bg-black data-[state=active]:text-white">
+                    <Settings className="h-4 w-4" />
+                    <span>Setup Guide</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="mcp" className="flex items-center space-x-2 data-[state=active]:bg-black data-[state=active]:text-white">
+                    <Wrench className="h-4 w-4" />
+                    <span>MCP Guide</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="usage" className="flex items-center space-x-2 data-[state=active]:bg-black data-[state=active]:text-white">
+                    <Play className="h-4 w-4" />
+                    <span>How to Use</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="technical" className="flex items-center space-x-2 data-[state=active]:bg-black data-[state=active]:text-white">
+                    <User className="h-4 w-4" />
+                    <span>Technical Details</span>
+                  </TabsTrigger>
+                </TabsList>
 
-          <TabsContent value="about" className="space-y-6">
-            <AboutSection />
-          </TabsContent>
-        </Tabs>
+                <TabsContent value="test" className="space-y-6 mt-8">
+                  <div className="mb-8">
+                    <h2 className="text-3xl font-bold mb-2">RAG Search Demo</h2>
+                    <p className="text-gray-600">Test the underlying search technology that powers the interactive resume</p>
+                  </div>
+                  <McpProtocolInfo />
+                  <TestRagSearch />
+                </TabsContent>
+
+                <TabsContent value="setup" className="space-y-6 mt-8">
+                  <div className="mb-8">
+                    <h2 className="text-3xl font-bold mb-2">Setup Instructions</h2>
+                    <p className="text-gray-600">Learn how to set up this system in your own environment</p>
+                  </div>
+                  <SetupGuide />
+                </TabsContent>
+
+                <TabsContent value="mcp" className="space-y-6 mt-8">
+                  <div className="mb-8">
+                    <h2 className="text-3xl font-bold mb-2">Model Context Protocol Integration</h2>
+                    <p className="text-gray-600">Integrate this resume system with Claude Desktop and other AI assistants</p>
+                  </div>
+                  <McpSetupGuide />
+                </TabsContent>
+
+                <TabsContent value="usage" className="space-y-6 mt-8">
+                  <div className="mb-8">
+                    <h2 className="text-3xl font-bold mb-2">Usage Guide</h2>
+                    <p className="text-gray-600">Comprehensive guide on how to use all features effectively</p>
+                  </div>
+                  <UsageGuide />
+                </TabsContent>
+
+                <TabsContent value="technical" className="space-y-6 mt-8">
+                  <div className="mb-8">
+                    <h2 className="text-3xl font-bold mb-2">Technical Implementation</h2>
+                    <p className="text-gray-600">Deep dive into the technical architecture and implementation details</p>
+                  </div>
+                  
+                  {/* Technical Details Card */}
+                  <Card className="p-8 border-2 hover:border-black">
+                    <h3 className="text-2xl font-bold mb-6 flex items-center gap-3">
+                      <Award className="w-6 h-6 text-black" />
+                      Technical Architecture
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <div>
+                        <h4 className="font-semibold mb-4">Technology Stack</h4>
+                        <ul className="space-y-2 text-gray-700">
+                          <li>• <strong>Framework:</strong> Next.js 15 with App Router</li>
+                          <li>• <strong>Database:</strong> Upstash Vector Database</li>
+                          <li>• <strong>Search:</strong> RAG with Vector Embeddings</li>
+                          <li>• <strong>Protocol:</strong> Model Context Protocol</li>
+                          <li>• <strong>Language:</strong> TypeScript</li>
+                          <li>• <strong>UI:</strong> shadcn/ui Components</li>
+                          <li>• <strong>Styling:</strong> Tailwind CSS</li>
+                          <li>• <strong>Deployment:</strong> Vercel Platform</li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold mb-4">Key Features</h4>
+                        <ul className="space-y-2 text-gray-700">
+                          <li>• Real-time RAG-powered search</li>
+                          <li>• Conversation memory and context</li>
+                          <li>• Semantic vector similarity matching</li>
+                          <li>• Professional black & white theme</li>
+                          <li>• Interactive animations and effects</li>
+                          <li>• Mobile-responsive design</li>
+                          <li>• HR-focused presentation</li>
+                          <li>• Claude Desktop integration</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </Card>
+                </TabsContent>
+              </Tabs>
+            </div>
+          </section>
+        )}
+
+        {/* Call to Action Section */}
+        <section className="py-32 bg-black text-white">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Ready to Connect?
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+              Interested in discussing opportunities, collaborations, or learning more about this innovative AI-powered resume platform?
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <a href="mailto:sbinal182@gmail.com?subject=Interview Opportunity&body=Hi Binal,%0D%0A%0D%0AI'd like to schedule an interview to discuss potential opportunities.%0D%0A%0D%0AAlternatively, you can reach me at 0403 892 199.%0D%0A%0D%0ABest regards" className="inline-flex">
+                <Button size="lg" variant="secondary" className="bg-white text-black hover:bg-gray-100 px-8">
+                  <Briefcase className="w-4 h-4 mr-2" />
+                  Schedule Interview
+                </Button>
+              </a>
+              <a href="mailto:sbinal182@gmail.com?subject=Resume Request&body=Hi Binal,%0D%0A%0D%0ACould you please send me your latest resume?%0D%0A%0D%0AAlternatively, you can reach me at 0403 892 199.%0D%0A%0D%0ABest regards">
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-black px-8">
+                  <FileText className="w-4 h-4 mr-2" />
+                  Download Resume
+                </Button>
+              </a>
+            </div>
+          </div>
+        </section>
       </main>
 
       <Footer />

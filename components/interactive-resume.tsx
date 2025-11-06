@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Search, MessageCircle, Loader2, User } from "lucide-react"
+import { Search, MessageCircle, Loader2, User, RotateCcw, Brain } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -20,12 +20,13 @@ export function InteractiveResume() {
     {
       id: '1',
       type: 'assistant',
-      content: "Hello! I'm Binal's interactive resume assistant. Ask me anything about Binal's background, skills, experience, or projects. For example, you could ask:\n\n• What programming languages does Binal know?\n• Tell me about Binal's work experience\n• What projects has Binal worked on?\n• What are Binal's achievements?",
+      content: "Hello! I'm Binal's interactive resume assistant. Ask me anything about her background, skills, experience, or projects. I remember our conversation, so feel free to ask follow-up questions!\n\n• What programming languages does Binal know?\n• Tell me about Binal's work experience\n• What projects has she worked on?\n• What are Binal's achievements?",
       timestamp: new Date()
     }
   ])
   const [inputValue, setInputValue] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [isUsingContext, setIsUsingContext] = useState(false)
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return
@@ -38,11 +39,21 @@ export function InteractiveResume() {
     }
 
     setMessages(prev => [...prev, userMessage])
+    const currentQuery = inputValue.trim()
     setInputValue("")
     setIsLoading(true)
 
     try {
-      const result = await searchResumeData(inputValue.trim())
+      // Get conversation context from recent messages (last 4 messages)
+      const recentMessages = messages.slice(-4).filter(msg => msg.type === 'user')
+      const conversationContext = recentMessages.map(msg => msg.content).join(' ')
+      
+      // Show context indicator if we have previous conversation
+      if (conversationContext.trim()) {
+        setIsUsingContext(true)
+      }
+      
+      const result = await searchResumeData(currentQuery, conversationContext)
       
       const assistantMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
@@ -62,6 +73,7 @@ export function InteractiveResume() {
       setMessages(prev => [...prev, errorMessage])
     } finally {
       setIsLoading(false)
+      setIsUsingContext(false)
     }
   }
 
@@ -76,20 +88,34 @@ export function InteractiveResume() {
     "What are Binal's technical skills?",
     "Tell me about Binal's work experience",
     "What projects has Binal worked on?",
-    "What is Binal's educational background?",
-    "What certifications does Binal have?"
+    "Tell me more about that", // Follow-up example
+    "When did she work there?" // Context-dependent example
   ]
 
   return (
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <User className="h-5 w-5" />
-            Interactive Resume Chat
-          </CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="flex items-center gap-2">
+              <User className="h-5 w-5" />
+              Interactive Resume Chat
+              <Brain className="h-4 w-4 text-blue-500" title="Has conversation memory" />
+            </CardTitle>
+            {messages.length > 1 && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setMessages([messages[0]])} // Keep only the initial message
+                className="text-xs"
+              >
+                <RotateCcw className="h-3 w-3 mr-1" />
+                Clear History
+              </Button>
+            )}
+          </div>
           <p className="text-sm text-muted-foreground">
-            Ask me anything about Binal's professional background, and I'll search through the knowledge base to provide you with detailed information.
+            Ask me anything about Binal's professional background. I remember our conversation context for follow-up questions!
           </p>
         </CardHeader>
         <CardContent>
@@ -138,7 +164,15 @@ export function InteractiveResume() {
             {isLoading && (
               <div className="flex justify-start">
                 <div className="bg-white border border-gray-200 p-3 rounded-lg">
-                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <div className="flex items-center gap-2">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    {isUsingContext && (
+                      <span className="text-xs text-blue-600 flex items-center gap-1">
+                        <Brain className="h-3 w-3" />
+                        Using conversation context
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
             )}

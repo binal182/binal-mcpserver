@@ -27,9 +27,12 @@ export async function searchBinalKnowledge(query: string) {
   try {
     const index = getVectorClient()
     
+    // Extract key terms and context from query for better search
+    const processedQuery = preprocessQuery(validatedQuery)
+    
     // Perform vector search with metadata
     const results = await index.query({
-      data: validatedQuery,
+      data: processedQuery,
       topK: 5, // Get top 5 most relevant results
       includeMetadata: true,
     })
@@ -105,12 +108,8 @@ ${content}
       }
     }
 
-    const responseText = `🔍 **Search Results for "${validatedQuery}"**
-
-${formattedResults.join('\n\n')}
-
----
-*Found ${formattedResults.length} relevant result(s) from Binal's knowledge base.*`
+    // Create a more conversational response based on query type
+    const responseText = formatConversationalResponse(validatedQuery, formattedResults)
 
     return {
       type: 'text' as const,
@@ -123,6 +122,58 @@ ${formattedResults.join('\n\n')}
       text: `❌ Error searching Binal's knowledge base: ${error instanceof Error ? error.message : 'Unknown error occurred'}. Please check your Upstash Vector configuration.`
     }
   }
+}
+
+// Helper function to preprocess queries for better search
+function preprocessQuery(query: string): string {
+  // Handle follow-up questions and pronouns
+  const lowerQuery = query.toLowerCase()
+  
+  // Replace pronouns with "Binal" for better search
+  let processedQuery = query
+    .replace(/\b(she|her|hers)\b/gi, 'Binal')
+    .replace(/\b(he|his|him)\b/gi, 'Binal')
+    .replace(/\b(they|their|them)\b/gi, 'Binal')
+  
+  // Handle common follow-up patterns
+  if (lowerQuery.includes('tell me more') || lowerQuery.includes('more details')) {
+    processedQuery = processedQuery + ' detailed information experience'
+  }
+  
+  if (lowerQuery.includes('when') || lowerQuery.includes('what year')) {
+    processedQuery = processedQuery + ' dates timeline duration'
+  }
+  
+  if (lowerQuery.includes('where')) {
+    processedQuery = processedQuery + ' location company address'
+  }
+  
+  return processedQuery
+}
+
+// Helper function to format conversational responses
+function formatConversationalResponse(query: string, formattedResults: string[]): string {
+  const lowerQuery = query.toLowerCase()
+  
+  // Determine response style based on query
+  let responsePrefix = "Here's what I found:"
+  
+  if (lowerQuery.includes('tell me about') || lowerQuery.includes('what did')) {
+    responsePrefix = "Based on Binal's background:"
+  } else if (lowerQuery.includes('how') || lowerQuery.includes('what experience')) {
+    responsePrefix = "Regarding Binal's experience:"
+  } else if (lowerQuery.includes('when') || lowerQuery.includes('what year')) {
+    responsePrefix = "Here are the relevant dates:"
+  } else if (lowerQuery.includes('where')) {
+    responsePrefix = "Location information:"
+  }
+  
+  return `${responsePrefix}
+
+${formattedResults.join('\n\n')}
+
+---
+*Found ${formattedResults.length} relevant result(s). Feel free to ask follow-up questions!*`
 }
 
 // Tool definition that can be reused

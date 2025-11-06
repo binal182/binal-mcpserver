@@ -167,12 +167,21 @@ export async function getFullResumeData() {
   }
 }
 
-// Search for specific information
-export async function searchResumeData(query: string) {
+// Search for specific information with conversation context
+export async function searchResumeData(query: string, context?: string) {
   try {
+    // Build enhanced query with conversation context
+    let enhancedQuery = query
+    
+    if (context && context.trim()) {
+      // Add context to help with follow-up questions
+      enhancedQuery = `${query} (previous context: ${context})`
+    }
+    
     // Try multiple search strategies to find working entries
     const searchStrategies = [
-      `${query} current`,  // Try with "current" suffix first
+      enhancedQuery,  // Try enhanced query first
+      `${query} current`,  // Try with "current" suffix
       `working ${query}`,  // Try with "working" prefix
       `${query} data analytics Python SQL`,  // Add specific terms
       query  // Fallback to original query
