@@ -76,7 +76,7 @@ export default function Home() {
         </div>
 
         {/* Interactive Chat Section - Always Visible */}
-        <section id="interactive-chat" className="py-32 bg-white">
+        <section id="interactive-chat" className="py-32 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold mb-6">
@@ -85,14 +85,29 @@ export default function Home() {
               <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
                 Ask questions about my professional background and get intelligent, contextual responses powered by advanced AI technology.
               </p>
-              <div className="flex justify-center mb-8">
-                <Link href="/resume" target="_blank">
-                  <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white">
-                    <FileText className="h-4 w-4 mr-2" />
-                    View Full Resume
-                  </Button>
-                </Link>
+              <div className="flex justify-center gap-4 mb-8">
+                <Badge variant="outline" className="border-blue-500 text-blue-700">
+                  <MessageCircle className="h-3 w-3 mr-1" />
+                  AI-Powered
+                </Badge>
+                <Badge variant="outline" className="border-green-500 text-green-700">
+                  Live Now
+                </Badge>
               </div>
+            </div>
+            
+            {/* Interactive Resume Component */}
+            <div className="max-w-5xl mx-auto">
+              <TestRagSearch />
+            </div>
+            
+            <div className="text-center mt-8">
+              <Link href="/resume" target="_blank">
+                <Button variant="outline" className="border-black text-black hover:bg-black hover:text-white">
+                  <FileText className="h-4 w-4 mr-2" />
+                  View Full Resume
+                </Button>
+              </Link>
             </div>
           </div>
         </section>
