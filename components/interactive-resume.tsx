@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Search, MessageCircle, Loader2, User, RotateCcw, Brain } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -16,27 +16,37 @@ interface ChatMessage {
 }
 
 export function InteractiveResume() {
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      id: '1',
-      type: 'assistant',
-      content: "Hello! I'm Binal's interactive resume assistant. Ask me anything about her background, skills, experience, or projects. I remember our conversation, so feel free to ask follow-up questions!\n\n• What programming languages does Binal know?\n• Tell me about Binal's work experience\n• What projects has she worked on?\n• What are Binal's achievements?",
-      timestamp: new Date()
-    }
-  ])
+  const [messages, setMessages] = useState<ChatMessage[]>([])
   const [inputValue, setInputValue] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [isUsingContext, setIsUsingContext] = useState(false)
+  const [isClient, setIsClient] = useState(false)
+  const [messageIdCounter, setMessageIdCounter] = useState(1)
+
+  // Initialize client-side only
+  useEffect(() => {
+    setIsClient(true)
+    setMessages([
+      {
+        id: 'initial',
+        type: 'assistant',
+        content: "Hello! I'm Binal's interactive resume assistant. Ask me anything about her background, skills, experience, or projects. I remember our conversation, so feel free to ask follow-up questions!\n\n• What programming languages does Binal know?\n• Tell me about Binal's work experience\n• What projects has she worked on?\n• What are Binal's achievements?",
+        timestamp: new Date()
+      }
+    ])
+  }, [])
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return
 
     const userMessage: ChatMessage = {
-      id: Date.now().toString(),
+      id: `user-${messageIdCounter}`,
       type: 'user',
       content: inputValue.trim(),
       timestamp: new Date()
     }
+    
+    setMessageIdCounter(prev => prev + 1)
 
     setMessages(prev => [...prev, userMessage])
     const currentQuery = inputValue.trim()
@@ -56,7 +66,7 @@ export function InteractiveResume() {
       const result = await searchResumeData(currentQuery, conversationContext)
       
       const assistantMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
+        id: `assistant-${messageIdCounter}`,
         type: 'assistant',
         content: result.success ? result.data || "No information found." : `Error: ${result.error}`,
         timestamp: new Date()
@@ -91,6 +101,28 @@ export function InteractiveResume() {
     "Tell me more about that", // Follow-up example
     "When did she work there?" // Context-dependent example
   ]
+
+  // Prevent hydration mismatch by only rendering on client
+  if (!isClient) {
+    return (
+      <div className="space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <User className="h-5 w-5" />
+              Interactive Resume Chat
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="h-6 w-6 animate-spin" />
+              <span className="ml-2">Loading interactive chat...</span>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-6">

@@ -4,10 +4,12 @@ import { useState, useEffect } from "react"
 import { Brain, Github, Menu, X, Download, Mail, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { ContactModal } from "@/components/contact-modal"
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -82,14 +84,17 @@ export function Header() {
 
           {/* Action Buttons */}
           <div className="hidden md:flex items-center space-x-3">
-            <a href="mailto:sbinal182@gmail.com?subject=Contact Inquiry&body=Hi Binal,%0D%0A%0D%0AI'd like to get in touch with you.%0D%0A%0D%0AYou can also reach me at 0403 892 199.%0D%0A%0D%0ABest regards">
-              <Button variant="outline" size="sm" className="border-gray-300 text-gray-700 hover:bg-gray-100">
-                <Mail className="h-4 w-4 mr-2" />
-                Contact
-              </Button>
-            </a>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="border-gray-300 text-gray-700 hover:bg-gray-100"
+              onClick={() => setIsContactModalOpen(true)}
+            >
+              <Mail className="h-4 w-4 mr-2" />
+              Contact
+            </Button>
             
-            <a href="mailto:sbinal182@gmail.com?subject=CV Request&body=Hi Binal,%0D%0A%0D%0ACould you please send me your latest CV/resume?%0D%0A%0D%0AYou can also reach me at 0403 892 199.%0D%0A%0D%0ABest regards">
+            <a href="/resume" target="_blank" rel="noopener noreferrer">
               <Button size="sm" className="bg-black hover:bg-gray-800 text-white">
                 <Download className="h-4 w-4 mr-2" />
                 Download CV
@@ -151,14 +156,20 @@ export function Header() {
               
               {/* Mobile Action Buttons */}
               <div className="flex flex-col space-y-2 px-4 pt-4 border-t border-gray-200">
-                <a href="mailto:sbinal182@gmail.com?subject=Contact Inquiry&body=Hi Binal,%0D%0A%0D%0AI'd like to get in touch with you.%0D%0A%0D%0AYou can also reach me at 0403 892 199.%0D%0A%0D%0ABest regards">
-                  <Button variant="outline" size="sm" className="justify-start border-gray-300 text-gray-700">
-                    <Mail className="h-4 w-4 mr-2" />
-                    Contact Me
-                  </Button>
-                </a>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="justify-start border-gray-300 text-gray-700"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false)
+                    setIsContactModalOpen(true)
+                  }}
+                >
+                  <Mail className="h-4 w-4 mr-2" />
+                  Contact Me
+                </Button>
                 
-                <a href="mailto:sbinal182@gmail.com?subject=CV Request&body=Hi Binal,%0D%0A%0D%0ACould you please send me your latest CV/resume?%0D%0A%0D%0AYou can also reach me at 0403 892 199.%0D%0A%0D%0ABest regards">
+                <a href="/resume" target="_blank" rel="noopener noreferrer">
                   <Button size="sm" className="justify-start bg-black hover:bg-gray-800 text-white">
                     <Download className="h-4 w-4 mr-2" />
                     Download CV
@@ -176,6 +187,12 @@ export function Header() {
           </div>
         )}
       </div>
+      
+      {/* Contact Modal */}
+      <ContactModal 
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+      />
     </header>
   )
 }

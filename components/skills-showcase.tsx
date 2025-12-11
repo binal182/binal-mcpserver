@@ -204,17 +204,24 @@ export function SkillsShowcase() {
             <p className="text-gray-300 mb-6">
               Let's discuss how my diverse skill set and proven track record can contribute to your organization's technical and business objectives.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="mailto:sbinal182@gmail.com?subject=Technical Interview Request&body=Hi Binal,%0D%0A%0D%0AI'd like to schedule a technical interview to discuss your skills and experience.%0D%0A%0D%0AYou can also reach me at 0403 892 199.%0D%0A%0D%0ABest regards">
-                <button className="bg-white text-black px-6 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors">
-                  Schedule Technical Interview
-                </button>
-              </a>
-              <a href="#technical" onClick={() => {const element = document.querySelector('[value="technical"]') as HTMLElement; element?.click();}}>
-                <button className="border border-white text-white px-6 py-3 rounded-md font-semibold hover:bg-white hover:text-black transition-colors">
-                  View Portfolio Projects
-                </button>
-              </a>
+            <div className="flex justify-center">
+              <button 
+                onClick={() => {
+                  // First show the technical tabs section
+                  window.dispatchEvent(new CustomEvent('showTechnicalTabs'));
+                  // Then scroll to the technical section and activate the tab
+                  setTimeout(() => {
+                    const element = document.querySelector('[value="technical"]') as HTMLElement;
+                    if (element) {
+                      element.click();
+                      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                  }, 100);
+                }}
+                className="border border-white text-white px-6 py-3 rounded-md font-semibold hover:bg-white hover:text-black transition-colors"
+              >
+                View Portfolio Projects
+              </button>
             </div>
           </Card>
         </div>

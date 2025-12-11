@@ -36,7 +36,15 @@ export default function ResumePage() {
   }, [])
 
   const handlePrint = () => {
+    // Set document title for PDF filename
+    const originalTitle = document.title
+    document.title = 'Binal_Shah_Resume_2025'
+    
+    // Trigger print dialog (user can save as PDF)
     window.print()
+    
+    // Restore original title
+    document.title = originalTitle
   }
 
   const handleEmailClick = () => {
@@ -54,53 +62,56 @@ export default function ResumePage() {
       period: "Jul 2025 - Sep 2025",
       location: "Sydney, Australia",
       type: "Internship",
-      description: "Developed an AI-powered Digital Twin platform that transformed static resumes into interactive, intelligent systems for recruiters using spec-driven development methodology with advanced AI tools.",
+      description: "Developed AI-powered Digital Twin platform using cutting-edge spec-driven development methodology combining GitHub Copilot, Claude Sonnet 4.0, and v0 for an integrated AI-assisted workflow.",
       achievements: [
-        "Delivered a working digital twin prototype that positioned AusBiz Consulting as an innovator in digital HR technology",
-        "Successfully integrated multiple cutting-edge AI technologies into a cohesive, production-ready platform", 
-        "Implemented dual-vector database architecture with ChromaDB and Upstash for optimized performance",
-        "Created first-of-its-kind interactive resume technology using vector embeddings and JSON data chunking",
-        "Established automated testing framework with continuous refinement workflows"
+        "Architected and deployed dual-vector database system (ChromaDB for local development + Upstash for production) handling vector embeddings with optimized retrieval performance",
+        "Engineered automated data transformation pipeline converting unstructured resume text into 50+ searchable JSON chunks with semantic embeddings for intelligent querying",
+        "Built production-grade RAG (Retrieval-Augmented Generation) system enabling natural language queries against professional profile data with context-aware responses",
+        "Implemented continuous integration testing framework using custom Food RAG validation system to ensure query accuracy",
+        "Developed modern web application using Next.js 15 App Router, React 19 Server Components, and Vercel AI SDK for seamless AI integration",
+        "Pioneered multi-AI tool development workflow: GitHub Copilot for code generation, Claude Sonnet 4.0 agent mode for architecture decisions, v0 for UI/UX rapid prototyping"
       ],
-      technologies: ["Next.js 15", "React 19", "Claude Sonnet 4.0", "GitHub Copilot", "ChromaDB", "Upstash", "Vector Embeddings", "Vercel AI SDK", "shadcn/ui", "Tailwind CSS", "MCP Protocol"],
+      technologies: ["Next.js 15", "React 19", "Python", "ChromaDB", "Upstash", "Claude Sonnet 4.0", "GitHub Copilot", "Vercel AI SDK", "MCP Protocol", "shadcn/ui", "Tailwind CSS"],
       impact: "High",
       color: "blue"
     },
     {
-      title: "Team Leader - Customer Experience & Training",
-      company: "Zeus Street Greek",
-      period: "Dec 2022 - Present", 
-      location: "North Willoughby, NSW",
-      type: "Leadership",
-      description: "Led training and development initiatives while delivering exceptional customer service in high-volume food service environment, managing digital workflows and operational excellence.",
+      title: "Administrative Assistant",
+      company: "Abel Tasman Village Association Ltd",
+      period: "Mar 2024 - Jan 2025", 
+      location: "Sydney, NSW",
+      type: "Administrative",
+      description: "Managed front-desk operations and administrative support in aged care facility, ensuring efficient daily operations and high-quality resident care coordination.",
       achievements: [
-        "Trained and mentored 6+ new hires in POS systems, workflows, and compliance procedures",
-        "Reduced onboarding time by 40% through systematic curriculum development and performance tracking",
-        "Achieved measurable improvement in staff retention through effective training methodologies",
-        "Delivered outstanding customer service to 20+ customers per week in high-volume environments",
-        "Successfully handled escalations with professionalism while maintaining customer satisfaction and team KPIs"
+        "Managed front-desk operations including reception, scheduling, and responding to daily inquiries",
+        "Handled and maintained 5+ appointments weekly with accuracy using internal systems",
+        "Assisted with documentation, filing, and record-keeping in compliance with data privacy standards",
+        "Responded to resident and family inquiries via phone and email with professionalism and care",
+        "Supported management and visiting professionals with scheduling and logistical coordination"
       ],
-      technologies: ["Deputy", "POS systems", "Digital workflow coordination tools", "Microsoft 365"],
-      impact: "High",
-      color: "green"
-    },
-    {
-      title: "Local Coordinator",
-      company: "Students for Liberty Australia",
-      period: "Jan 2023 - May 2024",
-      location: "Sydney, Australia", 
-      type: "Coordination",
-      description: "Led large-scale event planning and coordination for educational workshops, managing hybrid technology delivery and volunteer team coordination across Australia.",
-      achievements: [
-        "Orchestrated workshop logistics for 200+ student participants across multiple universities",
-        "Managed hybrid technology infrastructure seamlessly integrating Microsoft Teams and Zoom",
-        "Coordinated 13-member volunteer teams across Sydney and Melbourne markets", 
-        "Achieved 85% engagement success rate measured through participation metrics and program onboarding conversions",
-        "Successfully managed budget approval processes through project management oversight"
-      ],
-      technologies: ["Microsoft Teams", "Zoom", "Google Meet", "Project management tools", "Hybrid event technology"],
+      technologies: [],
       impact: "Medium",
       color: "purple"
+    },
+    {
+      title: "Assistant Manager",
+      company: "Zeus Street Greek",
+      period: "Dec 2022 - Dec 2025", 
+      location: "Sydney, NSW",
+      type: "Management",
+      description: "Supervised daily operations and staff management in high-volume food service environment, ensuring exceptional customer service and operational excellence.",
+      achievements: [
+        "Supervised 5-10 staff, ensuring smooth daily operations and consistent customer satisfaction",
+        "Delivered excellent service during high-volume hours, handling $3,000+ daily transactions",
+        "Managed staff timesheets and coordinated scheduling",
+        "Upsold products and recommended add-ons to enhance customer experience",
+        "Recognised by management for reliability, teamwork, and leadership during peak trading periods",
+        "Supported visual merchandising and store presentation to maintain a clean, organized, and customer-friendly environment",
+        "Experienced in unpacking stock deliveries, organizing back-of-house areas, and replenishing shelves"
+      ],
+      technologies: [],
+      impact: "High",
+      color: "green"
     }
   ]
 
@@ -136,18 +147,33 @@ export default function ResumePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      {/* Floating Download Button */}
+      <div className="fixed bottom-6 right-6 z-50 no-print">
+        <Button 
+          onClick={handlePrint} 
+          size="lg"
+          className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-full p-4"
+        >
+          <Download className="h-5 w-5 mr-2" />
+          Download PDF
+        </Button>
+      </div>
+
       {/* Print Styles */}
       <style jsx global>{`
         @media print {
           .no-print { display: none !important; }
           .print-break { page-break-before: always; }
-          body { background: white !important; }
-          .container { max-width: 100% !important; margin: 0 !important; padding: 20px !important; }
+          body { background: white !important; -webkit-print-color-adjust: exact; color-adjust: exact; }
+          .container { max-width: 100% !important; margin: 0 !important; padding: 15px !important; }
           .shadow-xl { box-shadow: none !important; }
-          .rounded-lg { border-radius: 0 !important; }
+          .rounded-lg, .rounded-2xl, .rounded-xl { border-radius: 8px !important; }
           .bg-gradient-to-r { background: #1e40af !important; }
           .text-blue-100 { color: #dbeafe !important; }
           .bg-gradient-to-br { background: white !important; }
+          .hover-lift { transform: none !important; }
+          .slide-in { animation: none !important; }
+          @page { margin: 0.5in; size: A4; }
         }
         
         .fade-in {
@@ -219,7 +245,7 @@ export default function ResumePage() {
           </div>
           <Button onClick={handlePrint} className="bg-blue-600 hover:bg-blue-700 transition-all duration-300">
             <Download className="h-4 w-4 mr-2" />
-            Download PDF
+            Save as PDF
           </Button>
         </div>
 
@@ -294,7 +320,7 @@ export default function ResumePage() {
                   <MapPin className="h-5 w-5 text-blue-200 mr-3" />
                   <div className="text-left">
                     <p className="text-blue-100 text-sm">Location</p>
-                    <p className="text-white font-medium">Hornsby, NSW 2077</p>
+                    <p className="text-white font-medium">Melbourne, Victoria</p>
                   </div>
                 </div>
               </div>
@@ -318,8 +344,7 @@ export default function ResumePage() {
             </p>
             <p className="text-lg text-gray-700 leading-relaxed">
               Proven leadership through <strong>training 6+ team members</strong> and coordinating <strong>200+ person events</strong>. 
-              Seeking <strong>Junior Data Analyst role</strong> to apply technical skills and grow toward Data Engineering with 
-              <strong>2+ years customer experience excellence</strong>.
+              Seeking <strong>Junior Data Analyst role</strong> to apply technical skills and grow toward Data Engineering.
             </p>
           </div>
           

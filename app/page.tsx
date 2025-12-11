@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Search, Settings, Play, User, FileText, Wrench, MessageCircle, Award, Briefcase } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Header } from "@/components/header"
@@ -11,7 +11,6 @@ import { McpProtocolInfo } from "@/components/mcp-protocol-info"
 import { UsageGuide } from "@/components/usage-guide"
 import { AboutSection } from "@/components/about-section"
 import { Footer } from "@/components/footer"
-import { InteractiveResume } from "@/components/interactive-resume"
 import { McpSetupGuide } from "@/components/mcp-setup-guide"
 import { SkillsShowcase } from "@/components/skills-showcase"
 import { Card } from "@/components/ui/card"
@@ -21,6 +20,19 @@ import Link from "next/link"
 
 export default function Home() {
   const [showTechnicalTabs, setShowTechnicalTabs] = useState(false)
+
+  // Listen for custom event to show technical tabs
+  useEffect(() => {
+    const handleShowTechnicalTabs = () => {
+      setShowTechnicalTabs(true)
+    }
+    
+    window.addEventListener('showTechnicalTabs', handleShowTechnicalTabs)
+    
+    return () => {
+      window.removeEventListener('showTechnicalTabs', handleShowTechnicalTabs)
+    }
+  }, [])
 
   const technicalFeatures = [
     {
@@ -82,7 +94,6 @@ export default function Home() {
                 </Link>
               </div>
             </div>
-            <InteractiveResume />
           </div>
         </section>
 
@@ -248,14 +259,8 @@ export default function Home() {
             <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
               Interested in discussing opportunities, collaborations, or learning more about this innovative AI-powered resume platform?
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <a href="mailto:sbinal182@gmail.com?subject=Interview Opportunity&body=Hi Binal,%0D%0A%0D%0AI'd like to schedule an interview to discuss potential opportunities.%0D%0A%0D%0AAlternatively, you can reach me at 0403 892 199.%0D%0A%0D%0ABest regards" className="inline-flex">
-                <Button size="lg" variant="secondary" className="bg-white text-black hover:bg-gray-100 px-8">
-                  <Briefcase className="w-4 h-4 mr-2" />
-                  Schedule Interview
-                </Button>
-              </a>
-              <a href="mailto:sbinal182@gmail.com?subject=Resume Request&body=Hi Binal,%0D%0A%0D%0ACould you please send me your latest resume?%0D%0A%0D%0AAlternatively, you can reach me at 0403 892 199.%0D%0A%0D%0ABest regards">
+            <div className="flex justify-center items-center">
+              <a href="/resume" target="_blank" rel="noopener noreferrer">
                 <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-black px-8">
                   <FileText className="w-4 h-4 mr-2" />
                   Download Resume

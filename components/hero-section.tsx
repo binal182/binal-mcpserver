@@ -130,7 +130,7 @@ export function HeroSection() {
                 Ask Questions
               </Button>
               
-              <a href="mailto:sbinal182@gmail.com?subject=CV Request&body=Hi Binal,%0D%0A%0D%0ACould you please send me your latest CV/resume?%0D%0A%0D%0AYou can also reach me at 0403 892 199.%0D%0A%0D%0ABest regards">
+              <a href="/resume" target="_blank" rel="noopener noreferrer">
                 <Button variant="outline" size="lg" className="border-gray-300 text-gray-700 hover:bg-gray-100">
                   <Download className="w-4 h-4 mr-2" />
                   Download CV
@@ -140,13 +140,13 @@ export function HeroSection() {
 
             {/* Contact Info */}
             <div className="flex flex-wrap gap-6 text-sm text-gray-600">
-              <a href="mailto:sbinal182@gmail.com" className="flex items-center gap-2 hover:text-black transition-colors">
+              <a href={`mailto:${personalInfo.contact.email}`} className="flex items-center gap-2 hover:text-black transition-colors">
                 <Mail className="w-4 h-4" />
-                <span>{personalInfo.email}</span>
+                <span>{personalInfo.contact.email}</span>
               </a>
-              <a href="tel:0403892199" className="flex items-center gap-2 hover:text-black transition-colors">
+              <a href={`tel:${personalInfo.contact.phone.replace(/\s/g, '')}`} className="flex items-center gap-2 hover:text-black transition-colors">
                 <Phone className="w-4 h-4" />
-                <span>{personalInfo.phone}</span>
+                <span>{personalInfo.contact.phone}</span>
               </a>
               <div className="flex items-center gap-2 hover:text-black transition-colors cursor-pointer">
                 <MapPin className="w-4 h-4" />
@@ -224,17 +224,7 @@ export function HeroSection() {
               </Card>
             </div>
 
-            {/* Call to Action */}
-            <Card className="p-6 bg-black text-white interactive-card transition-all duration-300 hover:scale-105">
-              <h3 className="text-lg font-bold mb-2">Ready to Innovate Together?</h3>
-              <p className="text-gray-300 text-sm mb-4">
-                Let's discuss how my AI expertise and leadership skills can drive your organization's digital transformation.
-              </p>
-              <Button variant="secondary" className="w-full bg-white text-black hover:bg-gray-100 transition-all duration-300">
-                Schedule a Meeting
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </Card>
+
           </div>
         </div>
 
