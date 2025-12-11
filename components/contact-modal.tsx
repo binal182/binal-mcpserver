@@ -123,7 +123,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
             
             <Button
               className="w-full bg-black hover:bg-gray-800 text-white"
-              onClick={() => window.open(`mailto:${personalInfo.email}?subject=Hello Binal&body=Hi Binal,%0D%0A%0D%0AI'd like to get in touch with you.%0D%0A%0D%0ABest regards`, '_blank')}
+              onClick={() => window.open(`mailto:${personalInfo.contact.email}?subject=Hello Binal&body=Hi Binal,%0D%0A%0D%0AI'd like to get in touch with you.%0D%0A%0D%0ABest regards`, '_blank')}
             >
               <Mail className="h-4 w-4 mr-2" />
               Send Email
@@ -132,7 +132,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
             <Button
               variant="outline"
               className="w-full border-black text-black hover:bg-black hover:text-white"
-              onClick={() => window.open(`https://${personalInfo.linkedin}`, '_blank')}
+              onClick={() => window.open(`https://${personalInfo.contact.linkedin}`, '_blank')}
             >
               <Linkedin className="h-4 w-4 mr-2" />
               Connect on LinkedIn

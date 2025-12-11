@@ -240,7 +240,7 @@ export function TestimonialsSection() {
             <p className="text-gray-600 mb-6">
               I'm happy to connect you with any of my professional references to discuss my work, leadership style, and contributions in more detail.
             </p>
-            <a href="mailto:sbinal182@gmail.com?subject=Reference Contacts Request&body=Hi Binal,%0D%0A%0D%0AI'd like to speak with your professional references to learn more about your work and contributions.%0D%0A%0D%0APlease let me know how to connect with them.%0D%0A%0D%0ABest regards">
+            <a href="mailto:sbinal182@gmail.com?subject=Reference Contacts Request&body=Hi Binal,%0D%0A%0D%0AI%27d like to speak with your professional references to learn more about your work and contributions.%0D%0A%0D%0APlease let me know how to connect with them.%0D%0A%0D%0ABest regards">
               <Button size="lg" className="bg-black hover:bg-gray-800 text-white">
                 Request Reference Contacts
               </Button>

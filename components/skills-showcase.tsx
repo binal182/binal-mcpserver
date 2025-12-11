@@ -19,7 +19,7 @@ import {
   Star,
   CheckCircle
 } from "lucide-react"
-import { skillsMetrics, achievements as realAchievements } from "@/lib/resume-data"
+import { skillsMetrics } from "@/lib/resume-data"
 
 export function SkillsShowcase() {
   const [isVisible, setIsVisible] = useState(false)

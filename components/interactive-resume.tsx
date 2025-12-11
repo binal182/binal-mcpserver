@@ -132,7 +132,7 @@ export function InteractiveResume() {
             <CardTitle className="flex items-center gap-2">
               <User className="h-5 w-5" />
               Interactive Resume Chat
-              <Brain className="h-4 w-4 text-blue-500" title="Has conversation memory" />
+              <Brain className="h-4 w-4 text-blue-500" />
             </CardTitle>
             {messages.length > 1 && (
               <Button

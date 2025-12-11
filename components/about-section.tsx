@@ -27,7 +27,7 @@ import {
   Eye,
   Heart
 } from "lucide-react"
-import { personalInfo, workExperience, education, achievements } from "@/lib/resume-data"
+import { personalInfo, workExperience, education } from "@/lib/resume-data"
 
 export function AboutSection() {
   const [activeTab, setActiveTab] = useState("overview")
@@ -78,9 +78,9 @@ export function AboutSection() {
 
   const educationCertifications = [
     {
-      title: education.degree,
-      institution: education.institution,
-      year: education.graduationDate,
+      title: education[0].degree,
+      institution: education[0].institution,
+      year: education[0].graduation,
       type: "degree"
     }
   ]
@@ -194,10 +194,10 @@ export function AboutSection() {
                         <Building className="w-5 h-5 text-black" />
                         <h3 className="text-xl font-bold">{job.company}</h3>
                       </div>
-                      <p className="text-lg font-semibold text-gray-800 mb-2">{job.title}</p>
+                      <p className="text-lg font-semibold text-gray-800 mb-2">{job.position}</p>
                       <div className="flex items-center gap-2 text-gray-600 mb-2">
                         <Calendar className="w-4 h-4" />
-                        <span className="text-sm">{job.period}</span>
+                        <span className="text-sm">{job.duration}</span>
                       </div>
                       <div className="flex items-center gap-2 text-gray-600">
                         <MapPin className="w-4 h-4" />

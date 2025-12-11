@@ -50,7 +50,7 @@ export async function searchBinalKnowledge(query: string) {
 
     // Log raw results for debugging
     results.forEach((result, i) => {
-      const content = result.metadata?.content || result.data || 'No content'
+      const content = (result.metadata?.content || result.data || 'No content') as string
       console.log(`Result ${i + 1}: Score=${result.score}, Content length=${content.length}, Preview="${content.substring(0, 100)}..."`)
     })
 
@@ -59,11 +59,10 @@ export async function searchBinalKnowledge(query: string) {
       .filter(result => {
         // Filter out results with no content
         const metadata = result.metadata || {}
-        const content = metadata.content || 
+        const content = (metadata.content || 
                        metadata.text || 
                        result.data || 
-                       result.content || 
-                       metadata.data
+                       metadata.data) as string | undefined
         
         // Only include results that have actual content and good relevance
         const isValid = content && 
@@ -86,12 +85,11 @@ export async function searchBinalKnowledge(query: string) {
       .map((result, index) => {
         const metadata = result.metadata || {}
         // Prioritize metadata.content since that's what works in Upstash
-        const content = metadata.content || 
+        const content = (metadata.content || 
                        metadata.text || 
                        result.data || 
-                       result.content || 
                        metadata.data ||
-                       "No content available - please check database"
+                       "No content available - please check database") as string
         
         const source = metadata.source || metadata.category || "Unknown source"
         const category = metadata.category || ""
