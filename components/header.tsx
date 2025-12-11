@@ -58,6 +58,12 @@ export function Header() {
             >
               About
             </button>
+            <a 
+              href="/portfolio"
+              className="text-gray-700 hover:text-black transition-colors font-medium"
+            >
+              Portfolio
+            </a>
             <button 
               onClick={() => scrollToSection('about-section')}
               className="text-gray-700 hover:text-black transition-colors font-medium"
@@ -129,6 +135,13 @@ export function Header() {
               >
                 About
               </button>
+              <a 
+                href="/portfolio"
+                className="text-left text-gray-700 hover:text-black transition-colors font-medium px-4 py-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Portfolio
+              </a>
               <button 
                 onClick={() => scrollToSection('about-section')}
                 className="text-left text-gray-700 hover:text-black transition-colors font-medium px-4 py-2"
