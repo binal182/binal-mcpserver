@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "update-db": "tsx scripts/update-vector-db.ts"
   },
   "dependencies": {
     "@radix-ui/react-separator": "^1.1.7",
