@@ -60,6 +60,8 @@ export function Header() {
             </button>
             <a 
               href="/portfolio"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-gray-700 hover:text-black transition-colors font-medium"
             >
               Portfolio
@@ -70,21 +72,13 @@ export function Header() {
             >
               Experience
             </button>
-            <button 
-              className="text-gray-700 hover:text-black transition-colors font-medium"
-              onClick={() => {
-                const resumeTab = document.querySelector('[value="resume"]') as HTMLElement
-                resumeTab?.click()
-              }}
-            >
-              Interactive Resume
-            </button>
             <a 
               href="/resume" 
               target="_blank"
+              rel="noopener noreferrer"
               className="text-gray-700 hover:text-black transition-colors font-medium"
             >
-              Full Resume
+              Resume
             </a>
           </nav>
 
@@ -100,10 +94,17 @@ export function Header() {
               Contact
             </Button>
             
-            <a href="/resume" target="_blank" rel="noopener noreferrer">
+            <a href="/portfolio" download="Binal_Shah_Portfolio.pdf">
+              <Button size="sm" variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-100">
+                <Download className="h-4 w-4 mr-2" />
+                Download Portfolio
+              </Button>
+            </a>
+
+            <a href="/resume" download="Binal_Shah_Resume.pdf">
               <Button size="sm" className="bg-black hover:bg-gray-800 text-white">
                 <Download className="h-4 w-4 mr-2" />
-                Download CV
+                Download Resume
               </Button>
             </a>
 
@@ -137,6 +138,8 @@ export function Header() {
               </button>
               <a 
                 href="/portfolio"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-left text-gray-700 hover:text-black transition-colors font-medium px-4 py-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
@@ -148,23 +151,14 @@ export function Header() {
               >
                 Experience
               </button>
-              <button 
-                className="text-left text-gray-700 hover:text-black transition-colors font-medium px-4 py-2"
-                onClick={() => {
-                  const resumeTab = document.querySelector('[value="resume"]') as HTMLElement
-                  resumeTab?.click()
-                  setIsMobileMenuOpen(false)
-                }}
-              >
-                Interactive Resume
-              </button>
               <a 
                 href="/resume" 
                 target="_blank"
+                rel="noopener noreferrer"
                 className="text-left text-gray-700 hover:text-black transition-colors font-medium px-4 py-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Full Resume
+                Resume
               </a>
               
               {/* Mobile Action Buttons */}
@@ -182,10 +176,17 @@ export function Header() {
                   Contact Me
                 </Button>
                 
-                <a href="/resume" target="_blank" rel="noopener noreferrer">
-                  <Button size="sm" className="justify-start bg-black hover:bg-gray-800 text-white">
+                <a href="/portfolio" download="Binal_Shah_Portfolio.pdf">
+                  <Button size="sm" variant="outline" className="justify-start border-gray-300 text-gray-700 w-full">
                     <Download className="h-4 w-4 mr-2" />
-                    Download CV
+                    Download Portfolio
+                  </Button>
+                </a>
+
+                <a href="/resume" download="Binal_Shah_Resume.pdf">
+                  <Button size="sm" className="justify-start bg-black hover:bg-gray-800 text-white w-full">
+                    <Download className="h-4 w-4 mr-2" />
+                    Download Resume
                   </Button>
                 </a>
 
